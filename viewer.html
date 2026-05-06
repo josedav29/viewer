@@ -1,61 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <title>Auto Print PDF</title>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
-
-  <style>
-    body { margin: 0; }
-    canvas { display: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Documento PDF</title>
+    <style>
+        /* Esto hace que el PDF ocupe toda la pantalla sin márgenes blancos */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100vw;
+            height: 100vh;
+            border: none;
+        }
+    </style>
 </head>
 <body>
 
-<canvas id="pdfCanvas"></canvas>
-
-<script>
-  // Obtener URL del PDF desde la query string
-  const urlParams = new URLSearchParams(window.location.search);
-  const pdfURL = urlParams.get("file");
-
-  if (!pdfURL) {
-    alert("No se recibió PDF");
-  }
-
-  // Cargar PDF
-  pdfjsLib.getDocument(pdfURL).promise.then(function(pdf) {
-    console.log("PDF cargado");
-
-    // Renderizar la primera página (necesario para imprimir)
-    pdf.getPage(1).then(function(page) {
-      var viewport = page.getViewport({ scale: 1 });
-      var canvas = document.getElementById("pdfCanvas");
-      var ctx = canvas.getContext("2d");
-
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
-
-      page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function() {
-        console.log("Página renderizada");
-
-        // Esperar un poco para asegurar carga
-        setTimeout(() => {
-          // Imprimir 2 copias
-          for (let i = 0; i < 2; i++) {
-            window.print();
-          }
-
-          // Cerrar pestaña después de imprimir
-          setTimeout(() => window.close(), 2000);
-
-        }, 500);
-      });
-    });
-  });
-</script>
+    <iframe src="tu-archivo.pdf">
+        <p>Tu navegador no puede mostrar este PDF. 
+           <a href="https://web.goodmanmfg.com/PilEcnDocSearch/pages/download/1778097784860-680C-F.pdf">Haz clic aquí para descargarlo.</a>
+        </p>
+    </iframe>
 
 </body>
 </html>
